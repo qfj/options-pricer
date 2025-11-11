@@ -1,0 +1,7 @@
+/build/
+/cpp-pricer/build/
+*.o
+*.out
+*.a
+*.so
+.vscode/

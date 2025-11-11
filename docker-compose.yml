@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  # C++ pricer server
+  pricer:
+    build:
+      context: ./cpp-pricer
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    # No fixed container_name: let Compose manage uniqueness, avoids conflicts
+    # Can be scraped by Prometheus via service name 'pricer'
+
+  # Prometheus metrics server
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "9090:9090"
+    depends_on:
+      - pricer
+    restart: unless-stopped
+    # No fixed container_name: Compose will reuse existing container if project matches
+    # avoids conflict if user already has Prometheus elsewhere
