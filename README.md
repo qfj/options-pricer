@@ -1,22 +1,28 @@
-# Options Pricer Server
+# Options Pricer Demo
 
-A lightweight C++ HTTP server for Black-Scholes option pricing with Prometheus metrics. Designed for demonstration, development, or testing purposes. Runs in Docker.
+A lightweight C++ HTTP server for Black-Scholes option pricing with Prometheus metrics, accompanied by a Python FastAPI frontend for visualizing a volatility surface. Fully containerized for easy setup and teardown using Docker Compose.
 
 ## Rationale
 
-- Serve option pricing via a simple HTTP API.
-- Provide real-time Prometheus metrics for monitoring requests and a synthetic demo gauge.
-- Minimal dependencies, easy to build and run in a container.
-- Recommended to run in a dedicated VM if you want to avoid interfering with existing Docker containers.
+- Serve option pricing via a simple HTTP API (C++ server).
+- Provide real-time Prometheus metrics including a synthetic demo gauge.
+- Python FastAPI frontend connects to the C++ pricer and displays a volatility surface.
+- Minimal dependencies, fully containerized, easy to start and stop.
+- Recommended to run in a dedicated VM to avoid conflicts with other Docker containers.
 
 ## Build & Run
 
 ```bash
-docker-compose up --build -d
+# Start the demo environment
+./scripts/start_demo.sh
+
+# Stop and clean everything
+./scripts/stop_demo.sh
 ```
 
-- Pricer server listens on **port 8080**.
-- Prometheus listens on **port 9090**.
+- C++ pricer server listens on 8080.
+- FastAPI vol surface app listens on 8000.
+- Prometheus (optional) listens on 9090 if included in docker-compose.
 
 ## API Usage
 
@@ -57,13 +63,11 @@ Expected response:
 ok
 ```
 
-## Fuzzing / Performance Testing
+### Python Frontend (Volatility Surface)
+- Access the FastAPI UI at http://localhost:8000
+- The UI queries the C++ pricer for prices and renders a volatility surface.
+- No extra setup needed for the Python virtual environment; it's contained in the Docker image.
 
-The project includes a minimal fuzz/performance test setup to validate the `pricer_server` binary.  
+## Testing
 
-- **Purpose:** Exercise the server with random input to catch edge-case errors and observe performance under load.  
-- **Usage:**  
-
-```bash
-./fuzz_perf.sh
-```
+Pricing API can be tested via simple `curl` requests or using the UI at Prometheus options, above.
