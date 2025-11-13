@@ -12,6 +12,21 @@ services:
     # No fixed container_name: let Compose manage uniqueness, avoids conflicts
     # Can be scraped by Prometheus via service name 'pricer'
 
+  # FastAPI volatility surface app
+  py-vol-surface:
+    build:
+      context: ./py-vol-surface
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      - pricer
+    environment:
+      # Inside Docker, reach C++ pricer by service name
+      CPPRICER_URL: "http://pricer:8080/price"
+      PRICER_HEALTH_URL: "http://pricer:8080/healthz"
+    restart: unless-stopped
+
   # Prometheus metrics server
   prometheus:
     image: prom/prometheus:latest

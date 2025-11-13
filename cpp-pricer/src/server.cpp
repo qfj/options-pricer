@@ -76,6 +76,15 @@ int main() {
                 << R"(, "put": )" << put_price
                 << "}" << "\n";
 
+            std::cout << "[C++ PRICER] spot=" << spot
+                << " strike=" << strike
+                << " rate=" << rate
+                << " vol=" << vol
+                << " expiry=" << expiry
+                << " -> call=" << call_price
+                << " put=" << put_price
+                << std::endl;
+
             res.set_content(oss.str(), "application/json");
 
         } catch (const std::exception& e) {

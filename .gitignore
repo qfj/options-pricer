@@ -5,3 +5,19 @@
 *.a
 *.so
 .vscode/
+
+# Ignore Python virtual environments
+venv/
+.env
+__pycache__/
+*.pyc
+*.pyo
+
+
+# Ignore git stuff
+.git
+.gitignore
+
+# Ignore OS files
+.DS_Store
+*.swp
