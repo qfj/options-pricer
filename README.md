@@ -2,6 +2,8 @@
 
 A lightweight C++ HTTP server for Black-Scholes option pricing with Prometheus metrics, accompanied by a Python FastAPI frontend for visualizing a volatility surface. Fully containerized for easy setup and teardown using Docker Compose.
 
+![Vol Surface UI](docs/implied_vol_surface.png)
+
 ## Rationale
 
 - Serve option pricing via a simple HTTP API (C++ server).
